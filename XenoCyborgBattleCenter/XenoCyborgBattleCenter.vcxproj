@@ -128,12 +128,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="battle_plan.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="requirements.c" />
     <ClCompile Include="ui.c" />
     <ClCompile Include="xeno_cyborg.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="battle_plan.h" />
     <ClInclude Include="ui.h" />
     <ClInclude Include="xeno_cyborg.h" />
   </ItemGroup>

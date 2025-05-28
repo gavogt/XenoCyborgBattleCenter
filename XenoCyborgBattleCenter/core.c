@@ -1,4 +1,4 @@
-void MenuSwitch(int choice) {
+void menu_switch(int choice) {
 	switch (choice) {
 	case 1:
 		//add_cyborg();
@@ -27,4 +27,36 @@ void MenuSwitch(int choice) {
 	default:
 		puts("Invalid choice. Please try again.");
 	}
+}
+
+void add_cyborg() {
+}
+
+void add_battle_plan() {
+
+}
+
+void assign_cyborg_to_battle() {
+}
+
+void list_battles() {
+
+}
+
+void launch_battle_simulation() {
+}
+
+void generate_after_action_report() {
+
+}
+
+void save_and_exit() {
+
+	puts("Saving data and exiting...");
+	exit(0);
+}
+
+void exit_without_saving() {
+	puts("Exiting without saving...");
+	exit(0);
 }

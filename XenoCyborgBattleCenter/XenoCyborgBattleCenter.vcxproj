@@ -133,12 +133,14 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="requirements.c" />
     <ClCompile Include="ui.c" />
+    <ClCompile Include="util.c" />
     <ClCompile Include="xeno_cyborg.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="battle_plan.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="ui.h" />
+    <ClInclude Include="util.h" />
     <ClInclude Include="xeno_cyborg.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

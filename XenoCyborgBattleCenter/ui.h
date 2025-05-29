@@ -3,6 +3,9 @@
 
 void WelcomeMessage();
 
+void save_and_exit();
+void exit_without_saving();
+
 #endif // !UI_H
 
 

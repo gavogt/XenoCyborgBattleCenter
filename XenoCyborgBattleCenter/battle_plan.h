@@ -2,6 +2,9 @@
 #define BATTLE_PLAN_H
 
 #define MAX_ASSIGNED 10
+#define MAX_PLANS 10
+
+extern int plan_count;
 
 typedef enum { SCHEDULED, IN_PROGRESS, WON, LOST } BattleStatus;
 
@@ -13,5 +16,7 @@ typedef struct {
 	BattleStatus status;
 
 } BattlePlan;
+
+extern BattlePlan plans[MAX_PLANS];
 
 #endif // !BATTLE_PLAN_H

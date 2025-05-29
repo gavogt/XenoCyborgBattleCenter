@@ -1,7 +1,13 @@
 #include "battle_plan.h"
 #include "xeno_cyborg.h"
+#include "core.h"
+#include <stdlib.h>
+#include "ui.h"
 
-void menu_switch(int choice) {
+int plan_count = 0;
+BattlePlan plans[MAX_PLANS];
+
+bool menu_switch(int choice) {
 	switch (choice) {
 	case 1:
 		add_cyborg();
@@ -10,7 +16,7 @@ void menu_switch(int choice) {
 		add_battle_plan();
 		break;
 	case 3:
-		//assign_cyborg_to_battle();
+		assign_cyborg_to_battle();
 		break;
 	case 4:
 		//list_battles();
@@ -22,18 +28,44 @@ void menu_switch(int choice) {
 		//generate_after_action_report();
 		break;
 	case 7:
-		//save_and_exit();
+		save_and_exit();
 		break;
 	case 8:
-		//exit_without_saving();
+		exit_without_saving();
 		break;
 	default:
 		puts("Invalid choice. Please try again.");
 	}
 }
 
-
 void assign_cyborg_to_battle() {
+	char buf[32];
+	int pid, cid;
+
+	printf("Enter battle plan ID: ");
+	if (!read_line(buf, sizeof buf)) return;
+	buf[sizeof(buf) - 1] = '\0';
+	pid = atoi(buf);
+
+	printf("Enter cyborg ID to assign: ");
+	if (!read_line(buf, sizeof buf)) return;
+	cid = atoi(buf);
+
+	for (int i = 0; i < plan_count; i++) {
+		if (plans[i].id == pid)
+		{
+			if (plans[i].num_assigned >= MAX_ASSIGNED) {
+				puts("Maximum number of cyborgs assigned to this plan reached.");
+				return;
+			}
+
+			plans[i].assigned[plans[i].num_assigned++] = cid;
+			printf("Assigned cyborg ID %d to battle plan ID %d\n", cid, pid);
+			return;
+			
+		}
+	}
+	puts("Battle plan %d not found.", pid);
 }
 
 void list_battles() {
@@ -50,10 +82,10 @@ void generate_after_action_report() {
 void save_and_exit() {
 
 	puts("Saving data and exiting...");
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void exit_without_saving() {
 	puts("Exiting without saving...");
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

@@ -16,6 +16,6 @@ void list_cyborgs();
 void list_battles();
 
 // Menu Switch
-void menu_switch(int choice);
+bool menu_switch(int choice);
 
 #endif // !CORE_H

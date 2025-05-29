@@ -3,12 +3,6 @@
 
 #include "battle_plan.h"
 
-#define MAX_PLANS 10
-
-BattlePlan plans[MAX_PLANS];
-
-int plan_count = 0;
-
 
 void add_battle_plan() {
 	if (plan_count >= MAX_PLANS) {

@@ -6,7 +6,6 @@ void init_fleet();
 void init_battles();
 
 // add cyborgs and battle plans, expanding storage as needed
-void add_cyborg();
 void add_battle_plan();
 
 // assign cyborgs to battles, checking role compatibility and avoiding duplicates

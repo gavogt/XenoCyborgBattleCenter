@@ -4,7 +4,7 @@
 int main() {
 	WelcomeMessage();
 
-	int choice = 2;
+	int choice = 1;
 
 	menu_switch(choice);
 

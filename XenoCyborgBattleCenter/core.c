@@ -1,9 +1,10 @@
 #include "battle_plan.h"
+#include "xeno_cyborg.h"
 
 void menu_switch(int choice) {
 	switch (choice) {
 	case 1:
-		//add_cyborg();
+		add_cyborg();
 		break;
 	case 2:
 		add_battle_plan();
@@ -29,9 +30,6 @@ void menu_switch(int choice) {
 	default:
 		puts("Invalid choice. Please try again.");
 	}
-}
-
-void add_cyborg() {
 }
 
 

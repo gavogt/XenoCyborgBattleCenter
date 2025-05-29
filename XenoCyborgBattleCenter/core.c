@@ -1,10 +1,12 @@
+#include "battle_plan.h"
+
 void menu_switch(int choice) {
 	switch (choice) {
 	case 1:
 		//add_cyborg();
 		break;
 	case 2:
-		//add_battle_plan();
+		add_battle_plan();
 		break;
 	case 3:
 		//assign_cyborg_to_battle();
@@ -32,9 +34,6 @@ void menu_switch(int choice) {
 void add_cyborg() {
 }
 
-void add_battle_plan() {
-
-}
 
 void assign_cyborg_to_battle() {
 }

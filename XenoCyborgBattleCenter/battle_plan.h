@@ -14,6 +14,7 @@ typedef struct {
 	char name[32];
 	int assigned[MAX_ASSIGNED];
 	int num_assigned; // Number of cyborgs assigned to this plan
+	PriorityLevel priority;
 	BattleStatus status;
 
 } BattlePlan;

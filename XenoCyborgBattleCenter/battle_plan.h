@@ -7,6 +7,7 @@
 extern int plan_count;
 
 typedef enum { SCHEDULED, IN_PROGRESS, WON, LOST } BattleStatus;
+typedef enum { LOW, MEDIUM, HIGH } PriorityLevel;
 
 typedef struct {
 	int id;

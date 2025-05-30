@@ -19,6 +19,8 @@ typedef struct {
 
 } BattlePlan;
 
+const char* battle_status_to_string(BattleStatus status);
+
 extern BattlePlan plans[MAX_PLANS];
 
 #endif // !BATTLE_PLAN_H

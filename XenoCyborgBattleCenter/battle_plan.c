@@ -35,3 +35,13 @@ void add_battle_plan() {
 
 	printf("Created plan \"%s\" with ID %d", bp->name, bp->id);
 }
+
+const char* battle_status_to_string(BattleStatus status) {
+	switch (status) {
+	case SCHEDULED: return "Scheduled";
+	case IN_PROGRESS: return "In Progress";
+	case WON: return "Won";
+	case LOST: return "Lost";
+	default: return "Unknown";
+	}
+}

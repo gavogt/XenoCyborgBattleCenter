@@ -20,6 +20,7 @@ typedef struct {
 } BattlePlan;
 
 const char* battle_status_to_string(BattleStatus status);
+void add_battle_plan();
 
 extern BattlePlan plans[MAX_PLANS];
 

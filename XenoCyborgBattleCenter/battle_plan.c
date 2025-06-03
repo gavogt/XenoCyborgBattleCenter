@@ -33,7 +33,9 @@ void add_battle_plan() {
 
 	bp->name[strcspn(bp->name, "\n")] = '\0'; // Strip newline if present
 
-	printf("Created plan \"%s\" with ID %d", bp->name, bp->id);
+	plan_count++; 
+
+	printf("Created plan \"%s\" with ID %d\n", bp->name, bp->id);
 }
 
 const char* battle_status_to_string(BattleStatus status) {

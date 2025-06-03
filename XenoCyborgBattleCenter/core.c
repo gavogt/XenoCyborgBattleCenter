@@ -69,7 +69,7 @@ void assign_cyborg_to_battle() {
 }
 
 void list_battles() {
-	if (plan_count = 0) {
+	if (plan_count == 0) {
 		puts("No battle plans available.");
 		return;
 	}

@@ -11,8 +11,9 @@ void launch_battle_simulation();
 
 // list cyborgs and battles, printing aligned columns
 void list_cyborgs();
-
 void list_battles();
+
+void generate_after_action_report();
 
 // Menu Switch
 bool menu_switch(int choice);

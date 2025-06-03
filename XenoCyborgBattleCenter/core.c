@@ -25,7 +25,7 @@ bool menu_switch(int choice) {
 		launch_battle_simulation();
 		break;
 	case 6:
-		//generate_after_action_report();
+		generate_after_action_report();
 		break;
 	case 7:
 		save_and_exit();
@@ -128,10 +128,28 @@ void  launch_battle_simulation() {
 			outcome_probability(win_chance, roll);
 		}
 	}
-	puts("All battle simulations completed.\n");
+	printf("All battle simulations completed.\n");
 }
 
 void generate_after_action_report() {
+	if(plan_count == 0)
+	{
+		puts("No battle plans available to generate report.");
+		return;
+	}
+
+	puts("Generating after-action report...");
+
+	printf("%-5s %-20s %-10s %-10s\n", "ID", "Name", "Status", "Assigned Cyborgs");
+	printf("--------------------------------------------------\n");
+
+	for(int i = 0; i< plan_count; i++){
+		BattlePlan* bp = &plans[i];
+		printf("%-5d %-20s %-10s %d\n", bp->id, bp->name, battle_status_to_string(bp->status), bp->num_assigned);
+
+	}
+
+	printf("After-action report generated successfully.\n");
 
 }
 

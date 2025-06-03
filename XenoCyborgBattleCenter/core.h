@@ -7,6 +7,7 @@ void init_battles();
 
 // assign cyborgs to battles, checking role compatibility and avoiding duplicates
 void assign_cyborg_to_battle();
+void launch_battle_simulation();
 
 // list cyborgs and battles, printing aligned columns
 void list_cyborgs();

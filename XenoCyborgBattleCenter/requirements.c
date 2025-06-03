@@ -1,103 +1,88 @@
-
-/*
+Ôªø/*
 Assignment: AlienCyborg2 CLI Battle Center (Visual Studio 2022)
 
 Objective:
-Develop a modular, menu-driven C application in Visual Studio 2022 that
-manages and directs strategic battle operations for your fleet of Alien
-Cyborgs. Leverage advanced C practicesódynamic data structures, multi-format
-I/O, plugins, threading, logging, and testingóto build a robust command center.
+  Build a menu-driven C application that manages Alien Cyborgs and their Battle Plans. Start with basic operations‚Äîadding, listing, assigning‚Äîand progressively layer in file I/O, plugins, threading, logging, and tests. This mirrors how real software grows from a small prototype into an ‚Äúenterprise‚Äêstyle‚Äù system without overwhelming you up front.
 
 Requirements & Key Tasks:
 
-Project Organization & Build System
-ï Use Visual Studio 2022 with a CMake project or native solution files.
-ï Structure your repository into src/, tests/, plugins/, and data/ folders.
-ï Configure CMakeSettings.json (or .vcxproj) to build the main program,
-any shared libraries, and the test suite.
-ï Ensure that pressing Ctrl+Shift+B compiles everything and that Test
-Explorer runs all unit tests.
+1. Project Organization & Build System
+   ‚Ä¢ Use Visual Studio 2022 (CMake or native solution).
+   ‚Ä¢ Create folders:
+     ‚Äì src/       (all source .c/.h files)
+     ‚Äì tests/     (unit test files)
+     ‚Äì plugins/   (sample DLL extensions)
+     ‚Äì data/      (sample CSV/JSON files)
+   ‚Ä¢ Configure your project so **Ctrl+Shift+B** builds the main app, plugins, and runs unit tests automatically.
 
-Extending the Data Model
-ï Continue using enum CyborgRole and a struct AlienCyborg with role-specific stats.
-ï Introduce a struct BattlePlan containing:
-ñ Unique battle ID;
-ñ Descriptive name;
-ñ Target coordinates or zones list;
-ñ Priority level (Low, Medium, High);
-ñ Roster of required roles;
-ñ Dynamic list of assigned cyborg IDs;
-ñ Status (Scheduled, InProgress, Won, Lost).
+2. Data Model
+   ‚Ä¢ In xeno_cyborg.h, define an enum for roles (e.g. SCOUT, PSI_OPERATIVE, ENGINEER, etc.) and a struct AlienCyborg (ID, name, age, role, plus any role-specific stats).
+   ‚Ä¢ In battle_plan.h, define a struct BattlePlan (unique ID, name, list of targets, priority, required roles, dynamic list of assigned cyborg IDs, status).
 
-Fleet & Battle Management API (core module)
-ï In core.cpp/core.c, implement:
-ñ init_fleet(), init_battles() to initialize dynamic arrays.
-ñ add_cyborg() and add_battle_plan() that expand storage when needed.
-ñ assign_cyborg_to_battle() checking role compatibility and avoiding duplicates.
-ñ list_cyborgs() and list_battles() printing aligned columns.
+3. Core API (src/core.c / core.h)
+   ‚Ä¢ Write functions to:
+     ‚Äì Initialize and grow dynamic arrays for cyborgs and battle plans.
+     ‚Äì Add a new cyborg or battle plan, expanding storage as needed.
+     ‚Äì Assign an existing cyborg (by ID) to a battle plan, checking for role compatibility and avoiding duplicates.
+     ‚Äì List all cyborgs or all battle plans in aligned columns.
+     ‚Äì Clean up (free) all allocated memory.
 
-Multi-Format File I/O (io module)
-ï Support CSV, binary, and JSON file handling, selectable via a startup flag.
-ï Implement load/save routines for both cyborgs and battle plans.
-ï On file errors (missing, corrupted, invalid JSON), log a warning and default
-to empty data.
+4. File I/O (src/io.c / io.h)
+   ‚Ä¢ Support three modes‚ÄîCSV text, binary, and JSON‚Äîchosen by a command-line flag.
+   ‚Ä¢ Load and save both cyborgs and battle plans in the selected format.
+   ‚Ä¢ If a file is missing, corrupted, or invalid JSON, log a warning and proceed with empty data.
 
-Interactive Menu & CLI Flags (main.c)
-ï Present menu options:
-1) Register new cyborg
-2) Create new battle plan
-3) Assign cyborgs to battle
-4) List battle plans
-5) Launch battle simulation
-6) Generate after-action report
-7) Save & Exit
-8) Exit without saving
-ï Parse flags: --mode, --threads, --plugins, --verbose, --help,
-either via getopt or Visual Studio command-line options.
+5. Interactive Menu & CLI Flags (src/main.c)
+   ‚Ä¢ Present a loop with exactly these options:
+     1) Register new cyborg
+     2) Create new battle plan
+     3) Assign cyborgs to battle
+     4) List battle plans
+     5) Launch battle simulation
+     6) Generate after-action report
+     7) Save & Exit
+     8) Exit without saving
+   ‚Ä¢ Parse startup flags (e.g. --mode, --threads, --plugins, --verbose, --help). Use a simple parser or getopt.
 
-Battle Simulation & Concurrency (simulation module)
-ï Let the user choose a thread count before simulations.
-ï For each InProgress battle, spawn threads that:
-ñ Log deployment and progress steps.
-ñ Compute outcome probabilities using cyborg stats and battle priority.
-ñ Update status to Won or Lost.
-ï Aggregate and display a summary in the main thread.
+6. Simulation & Concurrency (src/simulation.c / simulation.h)
+   ‚Ä¢ Begin with a single‚Äêthreaded simulation: for each ‚ÄúScheduled‚Äù battle, mark it ‚ÄúInProgress,‚Äù roll a random chance (e.g. 10% per assigned cyborg, capped at 90%), then mark ‚ÄúWon‚Äù or ‚ÄúLost.‚Äù
+   ‚Ä¢ Later (optional), accept a thread count and divide battles among threads so they run in parallel, then collect and summarize results back in the main thread.
 
-Plugin-Based Battle Extensions (plugin module)
-ï Define a plugin interface for .dll battle modules in plugins/.
-ï At startup, enumerate plugins/, LoadLibrary each DLL, and call its
-init_battle_plugin() function.
-ï Provide a sample plugin illustrating custom battle logic.
+7. Plugin System (src/plugin.c / plugin.h)
+   ‚Ä¢ Define a minimal plugin interface so external DLLs can register custom battle behaviors.
+   ‚Ä¢ On startup, look in plugins/ for DLLs, load each one, and call a known initialization function.
+   ‚Ä¢ Provide a single sample plugin that demonstrates extending battle logic (e.g. a ‚ÄúRecon‚Äù plugin that boosts certain plans).
 
-Logging & Error Reporting (utils module)
-ï Create a logger supporting INFO, DEBUG, and ERROR levels, writing to
-both the Output window and rotating log files.
-ï Use a --verbose switch to enable DEBUG logging; always capture ERRORs.
-ï After each allocation, I/O, or thread op, verify results and log failures.
+8. Logging & Error Handling (src/utils.c / utils.h)
+   ‚Ä¢ Create a simple logger with levels INFO, DEBUG, and ERROR.
+   ‚Ä¢ Write messages to console and a log file. Use a --verbose flag to enable DEBUG.
+   ‚Ä¢ After every memory allocation, file operation, or thread call, check for failure and log an ERROR if needed.
 
-Automated Tests & Continuous Integration
-ï In tests/, write unit tests for assignment logic, I/O, simulation,
-and plugin loading using a C test framework integrated into Visual Studio.
-ï Configure Test Explorer to discover and run these tests.
-ï Add a GitHub Actions workflow (.github/workflows/ci.yml) that builds
-with VS2022, runs tests, and uses Valgrind or a Windows equivalent for
-memory verification.
+9. Automated Tests & CI
+   ‚Ä¢ In tests/, write a handful of unit tests (using assert or a small C framework) for:
+     ‚Äì Adding cyborgs and plans
+     ‚Äì Assignment logic
+     ‚Äì File I/O routines
+     ‚Äì Simulation outcomes
+   ‚Ä¢ Configure your project (CMake or VS) so Test Explorer or `ctest` runs these tests on each build.
+   ‚Ä¢ Supply a GitHub Actions workflow that builds with VS2022, runs tests, and checks for memory leaks (e.g. using Dr. Memory on Windows).
 
-Graceful Shutdown & Cleanup
-ï Ensure all dynamic arrays (cyborgs, battle plans, assignments) are freed,
-threads joined, and DLLs unloaded on any exit path.
+10. Cleanup & Shutdown
+   ‚Ä¢ Ensure every dynamic array is freed, every thread is joined, and all loaded DLLs are unloaded on exit.
+   ‚Ä¢ Implement ‚ÄúExit without saving‚Äù so it skips file writes but still frees memory cleanly.
 
-Documentation
-ï At the top of main.c, include your name, date, and a brief summary.
-ï Comment public functions explaining their purpose and parameters.
-ï Provide a README.md detailing:
-ñ Project overview
-ñ Build & run steps in VS2022
-ñ CLI flag references
-ñ Plugin API documentation
+11. Documentation
+   ‚Ä¢ At the top of each .c file, include author, date, and a one-line summary.
+   ‚Ä¢ Comment each public function with its purpose and parameters (Doxygen-style).
+   ‚Ä¢ Provide a README.md that explains:
+     ‚Äì Project overview and folder structure
+     ‚Äì Build & run instructions in VS2022 (or via CMake)
+     ‚Äì CLI flag usage
+     ‚Äì Plugin API details
 
 Stretch Goals (Optional):
-ï Add a remote command mode via TCP sockets for live battle updates.
-ï Encrypt binary files with AES before saving and decrypt on load.
-ï Offer a simple GUI dashboard using Windows Console APIs or WinForms.
+   ‚Ä¢ Add a basic TCP server so commands can come remotely (thread-safe).
+   ‚Ä¢ Encrypt binary files with a simple AES library on save, decrypt on load.
+   ‚Ä¢ Create a minimal GUI dashboard using Windows Console APIs or WinForms.
+
 */

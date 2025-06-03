@@ -22,7 +22,7 @@ bool menu_switch(int choice) {
 		list_battles();
 		break;
 	case 5:
-		//launch_battle_simulation();
+		launch_battle_simulation();
 		break;
 	case 6:
 		//generate_after_action_report();
@@ -85,8 +85,50 @@ void list_battles() {
 	printf("\n");
 }
 
+void outcome_probability(int win_chance, int roll){
+	printf("Outcome probability: %d%% (rolled %d)\n", win_chance, roll);
+}
 
-void launch_battle_simulation() {
+
+void  launch_battle_simulation() {
+	if (plan_count == 0) {
+		puts("No battle plans available to simulate.");
+		return;
+	}
+
+	srand((unsigned int)time(NULL)); // Seed random number generator
+
+	puts("Launching battle simulations...");
+
+	for (int i = 0; i < plan_count; i++)
+	{
+		BattlePlan* bp = &plans[i];
+
+		if (bp->status != SCHEDULED) {
+			printf("Skipping battle plan %d (%s) - already %s in progress or completed.\n", bp->id, bp->name, battle_status_to_string(bp->status));
+			continue;
+		}
+
+		bp->status = IN_PROGRESS;
+
+		printf("Simulating battle plan %d (%s) with cyborg #%d assigned...\n", bp->id, bp->name, bp->num_assigned);
+
+		int win_chance = bp->num_assigned * 10; // Each cyborg contributes 10% chance to win
+		if (win_chance > 90) win_chance = 90;
+
+		int roll = rand() % 100; // Random roll between 0 and 99
+		if (roll < win_chance) {
+			bp->status = WON;
+			printf("Battle plan %d (%s) won!\n", bp->id, bp->name, battle_status_to_string(bp->status));
+			outcome_probability(win_chance, roll);
+		}
+		else {
+			bp->status = LOST;
+			printf("Battle plan %d (%s) lost.\n", bp->id, bp->name, battle_status_to_string(bp->status));
+			outcome_probability(win_chance, roll);
+		}
+	}
+	puts("All battle simulations completed.\n");
 }
 
 void generate_after_action_report() {

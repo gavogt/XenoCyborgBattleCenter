@@ -28,6 +28,7 @@ bool menu_switch(int choice) {
 		generate_after_action_report();
 		break;
 	case 7:
+		// io_save_all(IO_MODE_CSV); 
 		save_and_exit();
 		break;
 	case 8:

@@ -6,6 +6,8 @@
 int main() {
 	WelcomeMessage();
 
+	// io_load_all(IO_MODE_CSV);
+
 	bool running = true;
 	char buf[16];
 	int choice = 0;
